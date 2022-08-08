@@ -38,6 +38,7 @@ elem.innerHTML +=  `
 	</div>
 	`;
 editor.tools.appendChild(elem);
+/*
 var select = elem.querySelector("select");
 select.addEventListener("change", function(e){
 	var option = this.options[this.selectedIndex];
@@ -50,17 +51,19 @@ select.addEventListener("change", function(e){
 	else
 		graph.clear();
 });
-
+*/
 elem.querySelector("#save").addEventListener("click",function(){
 	console.log("saved");
-	localStorage.setItem( "graphdemo_save", JSON.stringify( graph.serialize() ) );
+	localStorage.setItem( "musebox_graph", JSON.stringify( graph.serialize() ) );
+	alert("Saved on local storage as musebox_graph");
 });
 
 elem.querySelector("#load").addEventListener("click",function(){
-	var data = localStorage.getItem( "graphdemo_save" );
+	var data = localStorage.getItem( "musebox_graph" );
 	if(data)
 		graph.configure( JSON.parse( data ) );
 	console.log("loaded");
+	alert("Loaded from local storage");
 });
 
 elem.querySelector("#download").addEventListener("click",function(){
@@ -69,7 +72,7 @@ elem.querySelector("#download").addEventListener("click",function(){
 	var url = URL.createObjectURL( file );
 	var element = document.createElement("a");
 	element.setAttribute('href', url);
-	element.setAttribute('download', "graph.JSON" );
+	element.setAttribute('download', "MuseBox graph.JSON" );
 	element.style.display = 'none';
 	document.body.appendChild(element);
 	element.click();
