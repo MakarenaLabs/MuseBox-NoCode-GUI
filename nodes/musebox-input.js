@@ -107,7 +107,7 @@
 	/* WEBCAM                */
     /*********************** */
     function ImageWebcam() {
-        this.addOutput("Webcam", "image");
+        this.addOutput("Webcam", ["image", "frame"]);
         this.properties = { filterFacingMode: false, facingMode: "user" };
         this.boxcolor = "black";
         this.frame = 0;
@@ -266,7 +266,7 @@
         ];
     };
 
-    LiteGraph.registerNodeType("graphics/webcam", ImageWebcam);
+    LiteGraph.registerNodeType("MuseBox Input/PC webcam", ImageWebcam);
 
 
 })(this);

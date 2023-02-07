@@ -7,22 +7,36 @@
 		this.addInput("frame", "frame");		
 		this.addInput("person bounding box", "person bounding box");
 		this.addOutput("face bounding box", "face bounding box");
+		this.addOutput("post process", "image");
+		this.addOutput("event", LiteGraph.ACTION);
 	}
     FaceDetection.title = "Face Detection";
-    FaceDetection.desc = "It detects the faces in a scene up to 32×32 pixel";
+    FaceDetection.desc = "It detects the faces in a scene up to 32x32 pixel";
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Detection", FaceDetection);
 	FaceDetection.prototype.onExecute = function() {
-    };	
+
+        var frame = this.getInputData(0);
+		/* musebox communication */
+		this.setOutputData(1, frame);
+
+	};	
 
 	/* FACE LANDMARKING */
 	function FaceLandmarking(){
 		this.addInput("face bounding box", "face bounding box");
+		this.addInput("prev processing", "image");
 		this.addOutput("98 face points", "98 face points");
+		this.addOutput("post processing", "image");
 	}
     FaceLandmarking.title = "Face Landmarking";
     FaceLandmarking.desc = "Given a face bounding box, it extracts the 98 relevant points of a face ";
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Landmarking", FaceLandmarking);
 	FaceLandmarking.prototype.onExecute = function() {
+
+        var frame = this.getInputData(1);
+		/* musebox communication */
+		this.setOutputData(1, frame);
+
     };	
 	
 	/* FACE RECOGNITION */

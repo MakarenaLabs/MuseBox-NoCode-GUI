@@ -3,7 +3,7 @@ function Editor(container_id, options) {
     options = options || {};
 
     //fill container
-    var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
+    var html = "<div class='header'><div class='tools tools-left'></div><div class='tools tools-right' style='margin-top:15px; margin-right:15px'></div></div>";
     html += "<div class='content'><div class='editor-area'><canvas class='graphcanvas' width='1000' height='500' tabindex=10></canvas></div></div>";
     html += "<div class='footer'><div class='tools tools-left'></div><div class='tools tools-right'></div></div>";
 
@@ -26,6 +26,24 @@ function Editor(container_id, options) {
     //this.addToolsButton("loadsession_button","Load","imgs/icon-load.png", this.onLoadButton.bind(this), ".tools-left" );
     //this.addToolsButton("savesession_button","Save","imgs/icon-save.png", this.onSaveButton.bind(this), ".tools-left" );
 
+    //this.addLoadCounter();
+    this.addToolsButton(
+        "playnode_button",
+        "Play",
+        "imgs/icon-play.png",
+        this.onPlayButton.bind(this),
+        ".tools-right"
+    );
+    this.addToolsButton(
+        "playstepnode_button",
+        "Step",
+        "imgs/icon-playstep.png",
+        this.onPlayStepButton.bind(this),
+        ".tools-right"
+    );
+
+  
+    
     //append to DOM
     var parent = document.getElementById(container_id);
     if (parent) {
@@ -67,6 +85,7 @@ Editor.prototype.addToolsButton = function( id, name, icon_url, callback, contai
     }
 
     var button = this.createButton(name, icon_url, callback);
+    button.style['margin-right'] = "20px";
     button.id = id;
     this.root.querySelector(container).appendChild(button);
 };

@@ -10,7 +10,7 @@
         this.size = [200, 200];
     }
 
-    ImageFrame.title = "Frame";
+    ImageFrame.title = "Image Rendering";
     ImageFrame.desc = "Frame viewerew";
     ImageFrame.widgets = [
         { name: "resize", text: "Resize box", type: "button" },
@@ -54,7 +54,7 @@
         }
     };
 
-    LiteGraph.registerNodeType("graphics/frame", ImageFrame);
+    LiteGraph.registerNodeType("MuseBox Output/Image Rendering", ImageFrame);
 
 
 })(this);
