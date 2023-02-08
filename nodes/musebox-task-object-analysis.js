@@ -11,6 +11,7 @@
     ObjectDetection.desc = "It detects the objects in a scene up to 32×32 pixel";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Object Detection", ObjectDetection);
 	ObjectDetection.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 	
 	/* OBJECT RECOGNITION */
@@ -22,6 +23,7 @@
     ObjectRecognition.desc = "Given a object bounding box, it determines what kind of object is ";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Object Recognition", ObjectRecognition);
 	ObjectRecognition.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 	/* TEXT DETECTION */
@@ -33,6 +35,7 @@
     TextDetection.desc = "It detects where is text in a scene";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Text Detection", TextDetection);
 	TextDetection.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 	/* TEXT TRANSCRIPTION */
@@ -44,6 +47,7 @@
     TextTranscription.desc = "Given a text bounding box, it transcribes the content";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Text Transcription", TextTranscription);
 	TextTranscription.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 	
 	
@@ -56,6 +60,7 @@
     LogoDetection.desc = "It detects the logos in a scene up to 64×64 pixel";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Logo Detection", LogoDetection);
 	LogoDetection.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 
@@ -68,6 +73,7 @@
     LogoRecognition.desc = "Given a logo bounding box, it determines the brand name";
     LiteGraph.registerNodeType("MuseBox Tasks/Object Analysis/Logo Recognition", LogoRecognition);
 	LogoRecognition.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };	
 
 })(this);

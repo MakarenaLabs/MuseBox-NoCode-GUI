@@ -44,6 +44,7 @@ jQuery(document).ready(($) => {
           else {
             image = data_json.data || data_json.image;
 
+			/* TODO: REMOVE SWITCH CASE!!! */
 			switch(data_json.topic) {
 				case "FaceDetection":
 					responseFromMuseBox.emit(data_json.topic, data_json);
@@ -53,19 +54,21 @@ jQuery(document).ready(($) => {
 					responseFromMuseBox.emit(data_json.topic, data_json);
 					break;
 
+				case "FaceRecognition":
+					responseFromMuseBox.emit(data_json.topic, data_json);
+					break;
+
+				case "GlassesDetection":
+					responseFromMuseBox.emit(data_json.topic, data_json);
+					break;
+					
+	
 				case "GenderDetection":
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.GenderDetection[i].gender;
-						draw_text(text, faceBB, context);
-					}
+					responseFromMuseBox.emit(data_json.topic, data_json);
 					break;
 
 				case "EyeBlink":
+					/*
 					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
 						faceBB = data_json.data.FaceDetection.data[i].face_BB;
 						draw_bb(faceBB, context);
@@ -75,9 +78,11 @@ jQuery(document).ready(($) => {
 						text = data_json.data.EyeBlink[i].eyeState;
 						draw_text(text, faceBB, context);
 					}
+					*/
 					break;
 
 				case "AgeDetection":
+					/*
 					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
 						faceBB = data_json.data.FaceDetection.data[i].face_BB;
 						draw_bb(faceBB, context);
@@ -87,21 +92,11 @@ jQuery(document).ready(($) => {
 						text = data_json.data.AgeDetection[i].age;
 						draw_text(text, faceBB, context);
 					}
-					break;
-
-				case "GlassesDetection":
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.GlassesDetection[i].glasses;
-						draw_text(text, faceBB, context);
-					}
+					*/
 					break;
 
 				case "EmotionRecognition":
+					/*
 					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
 						faceBB = data_json.data.FaceDetection.data[i].face_BB;
 						draw_bb(faceBB, context);
@@ -111,18 +106,7 @@ jQuery(document).ready(($) => {
 						text = data_json.data.EmotionRecognition[i].emotion;
 						draw_text(text, faceBB, context);
 					}
-					break;
-
-				case "FaceRecognition":
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.FaceRecognition[i].personFound;
-						draw_text(text, faceBB, context);
-					}
+					*/
 					break;
 					
 			}

@@ -11,6 +11,7 @@
     MedicalSegmentation.desc = "It supports the segmentation of various organs and small parts";
     LiteGraph.registerNodeType("MuseBox Tasks/Medical analysis/Medical segmentation", MedicalSegmentation);
 	MedicalSegmentation.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 

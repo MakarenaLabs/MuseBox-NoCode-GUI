@@ -11,6 +11,7 @@
     AudioClustering.desc = "It recognizes an audio in a stream from a given database";
     LiteGraph.registerNodeType("MuseBox Tasks/Audio analysis/Audio Clustering", AudioClustering);
 	AudioClustering.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 	/* AUDIO FILTERING */
@@ -22,6 +23,7 @@
     AudioFiltering.desc = "It filters audio removing noise or background / foreground signals";
     LiteGraph.registerNodeType("MuseBox Tasks/Audio analysis/Audio Filtering", AudioFiltering);
 	AudioFiltering.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 	/* AUDIO SCENE CLASSIFICATION */
@@ -33,6 +35,7 @@
     AudioSceneClassification.desc = "It classifies what a potential set could be for a given audio";
     LiteGraph.registerNodeType("MuseBox Tasks/Audio analysis/Audio Scene Classification", AudioSceneClassification);
 	AudioSceneClassification.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };
 
 	/* AUDIO Segmentation */
@@ -44,6 +47,7 @@
     AudioSegmentation.desc = "It segments different audios that compose a stream";
     LiteGraph.registerNodeType("MuseBox Tasks/Audio analysis/Audio Segmentation", AudioSegmentation);
 	AudioSegmentation.prototype.onExecute = function() {
+		alert("NOT IMPLEMENTED!");
     };	
 
 })(this);
