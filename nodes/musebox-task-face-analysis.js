@@ -1,7 +1,14 @@
 //MuseBox nodes
 
-var faceDetectionSem = true;
-var faceDetectionFrame = null;
+var faceDetectionOP = {
+	sem: true,
+	frame: null
+}
+var faceLandmarkOP = {
+	sem: false,
+	frame: null,
+	bbs: []
+};
 
 (function(global) {
     var LiteGraph = global.LiteGraph;
@@ -12,31 +19,32 @@ var faceDetectionFrame = null;
 		this.addInput("person bounding box", "person bounding box");
 		this.addOutput("face bounding box", "face bounding box");
 		this.addOutput("post process", "image");
-		this.addOutput("event", LiteGraph.ACTION);
 	}
     FaceDetection.title = "Face Detection";
     FaceDetection.desc = "It detects the faces in a scene up to 32x32 pixel";
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Detection", FaceDetection);
 	FaceDetection.prototype.onExecute = function() {
 
-		if(faceDetectionSem){
+		if(faceDetectionOP.sem){
 			var frame = this.getInputData(0);
 			if(frame && frame.width && frame.height){
-				faceDetectionSem = false;
-				faceDetectionFrame = frame;
+				faceDetectionOP.sem = false;
+				faceDetectionOP.frame = frame;
 				/* musebox communication */
 				sendImage("FaceDetection", frame);
 				console.log("sent FaceDetection");
 			}
 			responseFromMuseBox.addListener("FaceDetection", (value) => {
 				console.log(value);
-				var canvas = frame2Canvas(faceDetectionFrame);
+
+				/* draw */
+				var canvas = frame2Canvas(faceDetectionOP.frame);
 				var context = canvas.getContext('2d');
-				for(var i = 0; i < data_json.data.length; ++i){
-					draw_bb(data_json.data[i].face_BB, context);
+				for(var i = 0; i < value.data.length; ++i){
+					draw_bb(value.data[i].face_BB, context);
 				}
 				this.setOutputData(1, canvas);
-				faceDetectionSem = true;
+				faceDetectionOP.sem = true;
 			})
 		}
 
@@ -54,8 +62,45 @@ var faceDetectionFrame = null;
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Landmarking", FaceLandmarking);
 	FaceLandmarking.prototype.onExecute = function() {
 
-        var frame = this.getInputData(1);
 		/* musebox communication */
+		if(faceLandmarkOP.sem){
+			var BBs = this.getInputData(0);
+			var frame = this.getInputData(1);
+			if(frame && frame.width && frame.height){
+				faceLandmarkOP.sem = false;
+				faceLandmarkOP.frame = frame;
+				/* musebox communication */
+				for(var i = 0; i < BBs.data.length; ++i){
+					/* crop face, then send */
+					var bb = BBs.data[i].face_BB;
+					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
+					sendImage("FaceLandmark", face);
+					faceLandmarkOP.bbs.push(bb);
+					console.log("sent FaceLandmark");
+				}
+			}
+			responseFromMuseBox.addListener("FaceLandmark", (value) => {
+				console.log(value);
+				var canvas = frame2Canvas(faceLandmarkOP.frame);
+				var context = canvas.getContext('2d');
+
+				/* draw */
+				for (var i = 0; i < (value.data.length); ++i) {
+					faceBB = faceLandmarkOP.bbs.pop();
+					var width = faceBB.width;
+					var height = faceBB.height;
+					var lm_point = value.data.landmarks;
+		
+					for (var j = 0; j < 196; j += 2) {
+						point(lm_point[j] * (width / 80) + faceBB.x, lm_point[j+1] * (height / 80) + faceBB.y, context);
+					}
+				}
+		
+				this.setOutputData(1, canvas);
+				faceLandmarkOP.sem = true;
+			})
+		}
+
 		this.setOutputData(1, frame);
 
     };	

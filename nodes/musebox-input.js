@@ -208,21 +208,18 @@
         this._video.frame = ++this.frame;
         this._video.width = this._video.videoWidth;
         this._video.height = this._video.videoHeight;
-        if(this._video.frame % this.properties.delay == 0){
-                console.log(this._video.frame);
-                this.setOutputData(0, this._video);
-            for (var i = 1; i < this.outputs.length; ++i) {
-                if (!this.outputs[i]) {
-                    continue;
-                }
-                switch (this.outputs[i].name) {
-                    case "width":
-                        this.setOutputData(i, this._video.videoWidth);
-                        break;
-                    case "height":
-                        this.setOutputData(i, this._video.videoHeight);
-                        break;
-                }
+        this.setOutputData(0, this._video);
+        for (var i = 1; i < this.outputs.length; ++i) {
+            if (!this.outputs[i]) {
+                continue;
+            }
+            switch (this.outputs[i].name) {
+                case "width":
+                    this.setOutputData(i, this._video.videoWidth);
+                    break;
+                case "height":
+                    this.setOutputData(i, this._video.videoHeight);
+                    break;
             }
         }
 };
@@ -270,6 +267,36 @@
     };
 
     LiteGraph.registerNodeType("MuseBox Input/PC webcam", ImageWebcam);
+
+
+/******
+ * SCALE
+ */
+function Scale(){
+    this.addInput("image in", "frame,canvas,image");
+    this.addOutput("image out", "frame,canvas,image");
+    this.addProperty("width", "640");
+    this.addProperty("height", "480");
+}
+Scale.title = "Scale";
+Scale.desc = "Scale to fixed width and height";
+
+Scale.prototype.onConfigure = function(o) {
+};
+Scale.prototype.onExecute = function() {
+    var frame = this.getInputData(0);
+    if(frame){
+        var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext("2d");
+        canvas.width = this.properties.width;
+        canvas.height = this.properties.height;
+        ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+
+        this.setOutputData(0, canvas);
+    }
+};
+LiteGraph.registerNodeType("MuseBox Operators/Scale", Scale);
+
 
 
 })(this);

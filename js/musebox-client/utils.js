@@ -64,7 +64,16 @@ function draw_text(text, bb, context){
 	context.fillText(text, faceBB.x, faceBB.y-5);
 }
 
-
+const cropCanvas = (sourceCanvas,left,top,width,height) => {
+    let destCanvas = document.createElement('canvas');
+    destCanvas.width = width;
+    destCanvas.height = height;
+    destCanvas.getContext("2d").drawImage(
+        sourceCanvas,
+        left,top,width,height,  // source rect with content to crop
+        0,0,width,height);      // newCanvas, same size as source rect
+    return destCanvas;
+}
 
 jQuery(document).ready(function($) {
     console.log('Loaded webpage.js')
