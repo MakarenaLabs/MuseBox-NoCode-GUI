@@ -2,12 +2,15 @@
 
 var faceDetectionOP = {
 	sem: true,
-	frame: null
+	frame: null,
+	initListener: false
 }
 var faceLandmarkOP = {
-	sem: false,
-	frame: null,
-	bbs: []
+	sem: 0,
+	frame: 0,
+	bbs: [],
+	initListener: false,
+	tempCanvas: null
 };
 
 (function(global) {
@@ -19,6 +22,7 @@ var faceLandmarkOP = {
 		this.addInput("person bounding box", "person bounding box");
 		this.addOutput("face bounding box", "face bounding box");
 		this.addOutput("post process", "image");
+		this.addOutput("logs", "logs");
 	}
     FaceDetection.title = "Face Detection";
     FaceDetection.desc = "It detects the faces in a scene up to 32x32 pixel";
@@ -34,18 +38,23 @@ var faceLandmarkOP = {
 				sendImage("FaceDetection", frame);
 				console.log("sent FaceDetection");
 			}
-			responseFromMuseBox.addListener("FaceDetection", (value) => {
-				console.log(value);
+			if(!faceDetectionOP.initListener){
+				faceDetectionOP.initListener = true; 
+				responseFromMuseBox.addListener("FaceDetection", (value) => {
+					console.log(value);
 
-				/* draw */
-				var canvas = frame2Canvas(faceDetectionOP.frame);
-				var context = canvas.getContext('2d');
-				for(var i = 0; i < value.data.length; ++i){
-					draw_bb(value.data[i].face_BB, context);
-				}
-				this.setOutputData(1, canvas);
-				faceDetectionOP.sem = true;
-			})
+					/* draw */
+					var canvas = frame2Canvas(faceDetectionOP.frame);
+					var context = canvas.getContext('2d');
+					for(var i = 0; i < value.data.length; ++i){
+						draw_bb(value.data[i].face_BB, context);
+					}
+					this.setOutputData(0, value);
+					this.setOutputData(1, canvas);
+					this.setOutputData(2, JSON.stringify(value));
+					faceDetectionOP.sem = true;
+				})
+			}
 		}
 
 	};	
@@ -56,6 +65,10 @@ var faceLandmarkOP = {
 		this.addInput("prev processing", "image");
 		this.addOutput("98 face points", "98 face points");
 		this.addOutput("post processing", "image");
+		this.addOutput("crop 1", "image");
+		this.addOutput("crop 2", "image");
+		this.addOutput("crop 3", "image");
+		this.addOutput("logs", "logs");
 	}
     FaceLandmarking.title = "Face Landmarking";
     FaceLandmarking.desc = "Given a face bounding box, it extracts the 98 relevant points of a face ";
@@ -63,45 +76,57 @@ var faceLandmarkOP = {
 	FaceLandmarking.prototype.onExecute = function() {
 
 		/* musebox communication */
-		if(faceLandmarkOP.sem){
+		if(faceLandmarkOP.sem == 0){
 			var BBs = this.getInputData(0);
 			var frame = this.getInputData(1);
-			if(frame && frame.width && frame.height){
-				faceLandmarkOP.sem = false;
+			if(BBs && frame && frame.width && frame.height){
 				faceLandmarkOP.frame = frame;
 				/* musebox communication */
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
 					var bb = BBs.data[i].face_BB;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
+					this.setOutputData(2 + i, face);
 					sendImage("FaceLandmark", face);
 					faceLandmarkOP.bbs.push(bb);
+					faceLandmarkOP.sem++;
 					console.log("sent FaceLandmark");
 				}
 			}
-			responseFromMuseBox.addListener("FaceLandmark", (value) => {
-				console.log(value);
-				var canvas = frame2Canvas(faceLandmarkOP.frame);
-				var context = canvas.getContext('2d');
 
-				/* draw */
-				for (var i = 0; i < (value.data.length); ++i) {
-					faceBB = faceLandmarkOP.bbs.pop();
+			if(!faceLandmarkOP.initListener){
+				faceLandmarkOP.initListener = true; 
+				responseFromMuseBox.addListener("FaceLandmark", (value) => {
+					console.log(value);
+					if(faceLandmarkOP.tempCanvas == null){
+						faceLandmarkOP.tempCanvas = frame2Canvas(faceLandmarkOP.frame);
+					}
+					var canvas = faceLandmarkOP.tempCanvas;
+					var context = canvas.getContext('2d');
+
+					/* draw */
+					var faceBB = faceLandmarkOP.bbs.shift();
 					var width = faceBB.width;
 					var height = faceBB.height;
-					var lm_point = value.data.landmarks;
+					var lm_point = value.landmarks;
 		
 					for (var j = 0; j < 196; j += 2) {
-						point(lm_point[j] * (width / 80) + faceBB.x, lm_point[j+1] * (height / 80) + faceBB.y, context);
+						console.log(lm_point[j] * (width/80) + faceBB.x, lm_point[j+1] * (height/80) + faceBB.y);
+						point(lm_point[j] * (width/80) + faceBB.x, lm_point[j+1] * (height/80) + faceBB.y, context);
 					}
-				}
-		
-				this.setOutputData(1, canvas);
-				faceLandmarkOP.sem = true;
-			})
-		}
 
-		this.setOutputData(1, frame);
+					this.setOutputData(0, value.landmarks);
+					this.setOutputData(2, JSON.stringify(value));
+					faceLandmarkOP.tempCanvas = canvas;
+			
+					if(faceLandmarkOP.sem == 1){
+						this.setOutputData(1, canvas);
+						faceLandmarkOP.tempCanvas = null;
+					}
+					faceLandmarkOP.sem--;
+				})
+			}
+		}
 
     };	
 	

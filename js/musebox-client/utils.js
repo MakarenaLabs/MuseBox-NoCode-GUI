@@ -46,6 +46,7 @@ function point(x, y, canvas){
   canvas.beginPath();
   canvas.moveTo(x, y);
   canvas.lineTo(x+1, y+1);
+  canvas.lineWidth = 5;
   canvas.strokeStyle = "lightgreen";
   canvas.stroke();
 }
