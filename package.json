@@ -1,0 +1,26 @@
+{
+  "name": "musebox_editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "python -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/MakarenalabsDev/musebox/no-code-flow-editor.git"
+  },
+  "author": "MakarenaLabs srl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/MakarenalabsDev/musebox/no-code-flow-editor/issues"
+  },
+  "homepage": "https://gitlab.com/MakarenalabsDev/musebox/no-code-flow-editor#readme",
+  "dependencies": {
+    "eventemitter3": "^5.0.0",
+    "socket.io": "^3.1.0"
+  }
+}

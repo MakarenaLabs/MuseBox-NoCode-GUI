@@ -1,4 +1,8 @@
 //MuseBox nodes
+
+var faceDetectionSem = true;
+var faceDetectionFrame = null;
+
 (function(global) {
     var LiteGraph = global.LiteGraph;
 
@@ -15,9 +19,26 @@
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Detection", FaceDetection);
 	FaceDetection.prototype.onExecute = function() {
 
-        var frame = this.getInputData(0);
-		/* musebox communication */
-		this.setOutputData(1, frame);
+		if(faceDetectionSem){
+			var frame = this.getInputData(0);
+			if(frame && frame.width && frame.height){
+				faceDetectionSem = false;
+				faceDetectionFrame = frame;
+				/* musebox communication */
+				sendImage("FaceDetection", frame);
+				console.log("sent FaceDetection");
+			}
+			responseFromMuseBox.addListener("FaceDetection", (value) => {
+				console.log(value);
+				var canvas = frame2Canvas(faceDetectionFrame);
+				var context = canvas.getContext('2d');
+				for(var i = 0; i < data_json.data.length; ++i){
+					draw_bb(data_json.data[i].face_BB, context);
+				}
+				this.setOutputData(1, canvas);
+				faceDetectionSem = true;
+			})
+		}
 
 	};	
 

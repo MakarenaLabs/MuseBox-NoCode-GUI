@@ -108,7 +108,7 @@
     /*********************** */
     function ImageWebcam() {
         this.addOutput("Webcam", ["image", "frame"]);
-        this.properties = { filterFacingMode: false, facingMode: "user" };
+        this.properties = { filterFacingMode: false, facingMode: "user", delay: 30 };
         this.boxcolor = "black";
         this.frame = 0;
     }
@@ -208,21 +208,24 @@
         this._video.frame = ++this.frame;
         this._video.width = this._video.videoWidth;
         this._video.height = this._video.videoHeight;
-        this.setOutputData(0, this._video);
-        for (var i = 1; i < this.outputs.length; ++i) {
-            if (!this.outputs[i]) {
-                continue;
-            }
-            switch (this.outputs[i].name) {
-                case "width":
-                    this.setOutputData(i, this._video.videoWidth);
-                    break;
-                case "height":
-                    this.setOutputData(i, this._video.videoHeight);
-                    break;
+        if(this._video.frame % this.properties.delay == 0){
+                console.log(this._video.frame);
+                this.setOutputData(0, this._video);
+            for (var i = 1; i < this.outputs.length; ++i) {
+                if (!this.outputs[i]) {
+                    continue;
+                }
+                switch (this.outputs[i].name) {
+                    case "width":
+                        this.setOutputData(i, this._video.videoWidth);
+                        break;
+                    case "height":
+                        this.setOutputData(i, this._video.videoHeight);
+                        break;
+                }
             }
         }
-    };
+};
 
     ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas) {
         var that = this;

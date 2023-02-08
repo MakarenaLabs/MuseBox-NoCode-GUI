@@ -24,6 +24,36 @@
     <script type="text/javascript" src="/nodes/logic.js"></script>
     <script type="text/javascript" src="/nodes/events.js"></script>
 
+    <script src="/node_modules/eventemitter3/dist/eventemitter3.umd.js"></script>
+    <!--script src="/node_modules/socket.io/client-dist/socket.io.js"></script-->
+    <script src="https://musebox.it/wp-content/plugins/mkl-musebox/assets/js/node_modules/socket.io/client-dist/socket.io.js"></script>
+
+    <script type="text/javascript" src="/js/musebox-client/musebox-client.js"></script>
+    <script language="javascript" src="/js/musebox-client/lz_string.js"></script>
+    <script type="text/javascript">
+            var clientID = "1";
+            var username = "";
+            var siteName = "MuseBox";
+            var musebox_key = "4kl24jbe89235wetlnb335t";
+            var socket_io_uri = "https://musebox.it";
+            var musebox_task = "all";
+            var board = "KV260";
+
+            var socket = io(socket_io_uri, {transports: ["polling"], secure:true});
+              // use your socket
+              socket.on("connect", () => {
+                      // do something with the message.
+                      console.log("Client connected.");
+                      socket.emit("init", {"clientID": clientID
+                                          //"username": username
+                                          });
+              });
+              socket.on("connect_error", (err) => {
+                console.log(`connect_error due to ${err.message}`);
+              });
+    </script>
+    <script src="/js/musebox-client/utils.js"></script>
+
     <script type="text/javascript" src="/nodes/musebox-input.js"></script>
     <script type="text/javascript" src="/nodes/musebox-output.js"></script>
     <script type="text/javascript" src="/nodes/musebox-task-face-analysis.js"></script>
@@ -32,7 +62,7 @@
     <script type="text/javascript" src="/nodes/musebox-task-audio-analysis.js"></script>
     <script type="text/javascript" src="/nodes/musebox-task-medical-analysis.js"></script>
 
-	<script type="text/javascript" src="/js/code.js"></script>
+    <script type="text/javascript" src="/js/code.js"></script>
 
 </body>
 </html>
