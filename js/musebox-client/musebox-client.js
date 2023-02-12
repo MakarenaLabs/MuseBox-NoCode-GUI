@@ -39,78 +39,11 @@ jQuery(document).ready(($) => {
 		//console.log(data_json);
         if (data_json.topic) {
           if(data_json.status == "failed") {
-            console.log("Failed to crop face: ", data_json.message);
+            console.log("Failed to crop: ", data_json.message);
           }
           else {
             image = data_json.data || data_json.image;
-
-			/* TODO: REMOVE SWITCH CASE!!! */
-			switch(data_json.topic) {
-				case "FaceDetection":
-					responseFromMuseBox.emit(data_json.topic, data_json);
-					break;
-
-				case "FaceLandmark":
-					responseFromMuseBox.emit(data_json.topic, data_json);
-					break;
-
-				case "FaceRecognition":
-					responseFromMuseBox.emit(data_json.topic, data_json);
-					break;
-
-				case "GlassesDetection":
-					responseFromMuseBox.emit(data_json.topic, data_json);
-					break;
-					
-	
-				case "GenderDetection":
-					responseFromMuseBox.emit(data_json.topic, data_json);
-					break;
-
-				case "EyeBlink":
-					/*
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.EyeBlink[i].eyeState;
-						draw_text(text, faceBB, context);
-					}
-					*/
-					break;
-
-				case "AgeDetection":
-					/*
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.AgeDetection[i].age;
-						draw_text(text, faceBB, context);
-					}
-					*/
-					break;
-
-				case "EmotionRecognition":
-					/*
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						draw_bb(faceBB, context);
-					}
-					for (var i = 0; i < (data_json.data.FaceDetection.data.length); ++i) {
-						faceBB = data_json.data.FaceDetection.data[i].face_BB;
-						text = data_json.data.EmotionRecognition[i].emotion;
-						draw_text(text, faceBB, context);
-					}
-					*/
-					break;
-					
-			}
-			  
+			responseFromMuseBox.emit(data_json.topic, data_json);			  
           }
         }
       };

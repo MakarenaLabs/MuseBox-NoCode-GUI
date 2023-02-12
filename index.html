@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-    <title>LiteGraph</title>
+    <title>MuseBox GUI Editor</title>
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">-->
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 
@@ -21,28 +21,16 @@
     <script type="text/javascript" src="/nodes/logic.js"></script>
     <script type="text/javascript" src="/nodes/events.js"></script>
     <script type="text/javascript" src="/nodes/math.js"></script>
-    <script type="text/javascript" src="/nodes/widget.js"></script>
-    <script type="text/javascript" src="/nodes/string.js"></script>
+    <script type="text/javascript" src="/nodes/strings.js"></script>
     <script type="text/javascript" src="/nodes/interface.js"></script>
 
     <script src="/node_modules/eventemitter3/dist/eventemitter3.umd.js"></script>
 
     <script type="text/javascript" src="/js/musebox-client/musebox-client.js"></script>
     <script language="javascript" src="/js/musebox-client/lz_string.js"></script>
-    <script type="text/javascript">
-            var clientID = "1";
-            var username = "";
-            var siteName = "MuseBox";
-            var musebox_key = "4kl24jbe89235wetlnb335t";
-            //var socket_io_uri = "https://musebox.it";
-            var musebox_task = "all";
-            var board = "KV260";
-            var url = "ws://192.168.188.77:8083";
-            var socket = new WebSocket(url);
-
-    </script>
     <script src="/js/musebox-client/utils.js"></script>
 
+    <script type="text/javascript" src="/nodes/musebox-configuration.js"></script>
     <script type="text/javascript" src="/nodes/musebox-input.js"></script>
     <script type="text/javascript" src="/nodes/musebox-output.js"></script>
     <script type="text/javascript" src="/nodes/musebox-operators.js"></script>
@@ -55,12 +43,16 @@
     <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/glasses-detection.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/mask-detection.js"></script>
 
+    <!-- object analysis -->
+    <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/logo-detection.js"></script>
+    <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/logo-recognition.js"></script>
+    <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/object-detection.js"></script>
+    <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/text-detection.js"></script>
+
     <!-- not implemented method -->
-    <script type="text/javascript" src="/nodes/musebox-task-face-analysis.js"></script>
-    <script type="text/javascript" src="/nodes/musebox-task-people-analysis.js"></script>
-    <script type="text/javascript" src="/nodes/musebox-task-object-analysis.js"></script>
-    <script type="text/javascript" src="/nodes/musebox-task-audio-analysis.js"></script>
-    <script type="text/javascript" src="/nodes/musebox-task-medical-analysis.js"></script>
+    <!--script type="text/javascript" src="/nodes/musebox-task-face-analysis.js"></script-->
+    <!--script type="text/javascript" src="/nodes/musebox-task-audio-analysis.js"></script-->
+    <!--script type="text/javascript" src="/nodes/musebox-task-medical-analysis.js"></script-->
 
     <script type="text/javascript" src="/js/code.js"></script>
 

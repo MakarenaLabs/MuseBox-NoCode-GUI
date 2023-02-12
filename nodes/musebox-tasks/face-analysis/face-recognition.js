@@ -22,13 +22,12 @@ var faceRecognitionOP = {
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Face Recognition", FaceRecognition);
 	FaceRecognition.prototype.onExecute = function() {
 
-		/* musebox communication */
 		if(faceRecognitionOP.sem == 0){
 			var BBs = this.getInputData(0);
 			var frame = this.getInputData(1);
 			if(BBs && frame && frame.width && frame.height){
 				faceRecognitionOP.frame = frame;
-				/* musebox communication */
+
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
 					var bb = BBs.data[i].face_BB;

@@ -40,7 +40,7 @@ function CountBoundingBoxes(){
     this.addOutput("result", "number");
 }
 CountBoundingBoxes.title = "Count Bounding Boxes";
-CountBoundingBoxes.desc = "Scale to fixed width and height";
+CountBoundingBoxes.desc = "Count Bounding Boxes";
 
 CountBoundingBoxes.prototype.onExecute = function() {
     var bbs = this.getInputData(0);

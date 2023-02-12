@@ -22,13 +22,11 @@ var maskDetectionOP = {
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Mask Detection", MaskDetection);
 	MaskDetection.prototype.onExecute = function() {
 
-		/* musebox communication */
 		if(maskDetectionOP.sem == 0){
 			var BBs = this.getInputData(0);
 			var frame = this.getInputData(1);
 			if(BBs && frame && frame.width && frame.height){
 				maskDetectionOP.frame = frame;
-				/* musebox communication */
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
 					var bb = BBs.data[i].face_BB;

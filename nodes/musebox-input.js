@@ -3,104 +3,25 @@
     var LiteGraph = global.LiteGraph;
 
     /*********************** */
-	/* IMAGE                 */
+	/* MEDIA STREAM          */
     /*********************** */
-	function Image(){
-		this.addOutput("image", "frame");
-        this.addProperty("local path", "");
-        this.widget = this.addWidget("text", "local path", "", "local path");
-        this.widgets_up = true;
-	}
-    Image.color = "#4337ff";
-    Image.title = "Image";
-    Image.desc = "Image file on local path";
-
-    Image.prototype.onConfigure = function(o) {
-        this.widget.value = o.properties['local path'];
-    };
-	Image.prototype.onExecute = function() {
-    };
-    LiteGraph.registerNodeType("MuseBox Input/Image", Image);
-
-    /*********************** */
-	/* VIDEO                 */
-    /*********************** */
-	function Video(){
-		this.addOutput("frames", "frame");
-        this.addProperty("local path", "");
-        this.widget = this.addWidget("text", "local path", "", "local path");
-        this.widgets_up = true;
-	}
-    Video.color = "#0066bd";
-    Video.title = "Video";
-    Video.desc = "Video file on local path";
-
-    Video.prototype.onConfigure = function(o) {
-        this.widget.value = o.properties['local path'];
-    };
-	Video.prototype.onExecute = function() {
-    };
-    LiteGraph.registerNodeType("MuseBox Input/Video", Video);
-
-    /*********************** */
-	/* AUDIO                 */
-    /*********************** */
-	function Audio(){
-		this.addOutput("audio", "audio");
-        this.addProperty("local path", "");
-        this.widget = this.addWidget("text", "local path", "", "local path");
-        this.widgets_up = true;
-	}
-    Audio.color = "#0066bd";
-    Audio.title = "Audio";
-    Audio.desc = "Audio file on local path";
-
-    Audio.prototype.onConfigure = function(o) {
-        this.widget.value = o.properties['local path'];
-    };
-	Audio.prototype.onExecute = function() {
-    };
-    LiteGraph.registerNodeType("MuseBox Input/Audio", Audio);
-
-    /*********************** */
-	/* VIDEO STREAM          */
-    /*********************** */
-	function VideoStream(){
+	function MediaStream(){
 		this.addOutput("frames", "frame");
         this.addProperty("url source", "");
         this.widget = this.addWidget("text", "url source", "", "url source");
         this.widgets_up = true;
 	}
-    VideoStream.color = "#009abd";
-    VideoStream.title = "Video Stream";
-    VideoStream.desc = "Video from external stream";
+    MediaStream.color = "#009abd";
+    MediaStream.title = "Media Stream";
+    MediaStream.desc = "Media stream";
 
-    VideoStream.prototype.onConfigure = function(o) {
+    MediaStream.prototype.onConfigure = function(o) {
         this.widget.value = o.properties['url source'];
     };
-	VideoStream.prototype.onExecute = function() {
+	MediaStream.prototype.onExecute = function() {
+        alert("NOT IMPLEMENTED!");
     };
-    LiteGraph.registerNodeType("MuseBox Input/Video Stream", VideoStream);    
-
-    /*********************** */
-	/* AUDIO STREAM          */
-    /*********************** */
-	function AudioStream(){
-		this.addOutput("audio", "audio");
-        this.addProperty("url source", "");
-        this.widget = this.addWidget("text", "url source", "", "url source");
-        this.widgets_up = true;
-	}
-    AudioStream.color = "#009abd";
-    AudioStream.title = "Audio Stream";
-    AudioStream.desc = "Audio from external stream";
-
-    AudioStream.prototype.onConfigure = function(o) {
-        this.widget.value = o.properties['url source'];
-    };
-	AudioStream.prototype.onExecute = function() {
-    };
-    LiteGraph.registerNodeType("MuseBox Input/Audio Stream", AudioStream);    
+    LiteGraph.registerNodeType("MuseBox Input/Media Stream", MediaStream);    
 
 
     /*********************** */

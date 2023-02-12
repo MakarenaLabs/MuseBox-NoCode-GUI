@@ -9,7 +9,7 @@ window.addEventListener("resize", function() { editor.graphcanvas.resize(); } );
 //window.addEventListener("keydown", editor.graphcanvas.processKey.bind(editor.graphcanvas) );
 window.onbeforeunload = function(){
 	var data = JSON.stringify( graph.serialize() );
-	localStorage.setItem("litegraphg demo backup", data );
+	localStorage.setItem("musebox backup", data );
 }
 
 //enable scripting

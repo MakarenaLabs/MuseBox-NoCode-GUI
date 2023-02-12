@@ -25,9 +25,7 @@ var faceDetectionOP = {
 			if(frame && frame.width && frame.height){
 				faceDetectionOP.sem = false;
 				faceDetectionOP.frame = frame;
-				/* musebox communication */
 				sendImage("FaceDetection", frame);
-				console.log("sent FaceDetection");
 			}
 			if(!faceDetectionOP.initListener){
 				faceDetectionOP.initListener = true; 

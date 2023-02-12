@@ -22,13 +22,11 @@ var glassesDetectionOP = {
     LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Glasses Detection", GlassesDetection);
 	GlassesDetection.prototype.onExecute = function() {
 
-		/* musebox communication */
 		if(glassesDetectionOP.sem == 0){
 			var BBs = this.getInputData(0);
 			var frame = this.getInputData(1);
 			if(BBs && frame && frame.width && frame.height){
 				glassesDetectionOP.frame = frame;
-				/* musebox communication */
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
 					var bb = BBs.data[i].face_BB;
