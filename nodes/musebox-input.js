@@ -6,10 +6,12 @@
 	/* MEDIA STREAM          */
     /*********************** */
 	function MediaStream(){
-		this.addOutput("frames", "frame");
+		this.addOutput("frames", ["frame", "image"]);
         this.addProperty("url source", "");
         this.widget = this.addWidget("text", "url source", "", "url source");
         this.widgets_up = true;
+        this.video = null;
+        this.source = null;
 	}
     MediaStream.color = "#009abd";
     MediaStream.title = "Media Stream";
@@ -19,8 +21,40 @@
         this.widget.value = o.properties['url source'];
     };
 	MediaStream.prototype.onExecute = function() {
-        alert("NOT IMPLEMENTED!");
+        //debugger;        
+        if(this.video == null){
+            this.video = document.createElement("video");
+            this.source = document.createElement('source');
+
+            this.source.setAttribute('src', this.properties['url source']);
+            this.source.setAttribute('type', 'video/mp4');
+            
+            this.video.appendChild(this.source);
+            this.video.muted = true;
+            this.video.pause();
+            this.video.currentTime = 0;
+            this.video.load();
+            this.video.play();
+            console.log({
+              src: this.source.getAttribute('src'),
+              type: this.source.getAttribute('type'),
+            });
+            this.video.autoplay = true;
+        }
+       
+        this.setOutputData(0, this.video);
+
+        
     };
+
+    MediaStream.prototype.onStop = function(){
+        this.video.pause();
+        this.video.remove();
+        this.video = null;
+        this.source.remove();
+        this.video = null;
+    }
+
     LiteGraph.registerNodeType("MuseBox Input/Media Stream", MediaStream);    
 
 
