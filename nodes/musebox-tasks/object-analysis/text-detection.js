@@ -32,7 +32,7 @@ var textDetectionOP = {
 					var canvas = frame2Canvas(textDetectionOP.frame);
 					var context = canvas.getContext('2d');
 					for(var i = 0; i < value.data.length; ++i){
-						draw_bb(value.data[i].object_BB, context);
+						draw_bb(value.data[i].text_BB, context);
 					}
 					this.setOutputData(0, value);
 					this.setOutputData(1, canvas);
