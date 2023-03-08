@@ -1,5 +1,6 @@
 responseFromMuseBox = null;
 
+
 function sendImage(task, _image) {
 	
 	var canvas = frame2Canvas(_image);
@@ -22,6 +23,29 @@ function sendImage(task, _image) {
 	}
 	//var compressed = LZString.compress(JSON.stringify(messageToSend));
 	start = new Date();
+	if (!socket.onmessage){
+		socket.onmessage = (data) => {
+			var end = new Date();
+			pipeline_duration = end.getTime() - start.getTime();
+			data_json = JSON.parse(data.data);
+			newJsonObjProxy.res = data_json;
+			console.log("Received message.");
+			//console.log(data_json);
+			if (data_json.topic) {
+			  if(data_json.status == "failed") {
+				console.log("Failed to crop: ", data_json.message);
+			  }
+			  else {
+				image = data_json.data || data_json.image;
+				responseFromMuseBox.emit(data_json.topic, data_json);			  
+			  }
+			}
+		  };
+		
+		  socket.onerror = (err) => {
+			console.log(`connect_error due to ${err.message}`);
+		  };	
+	}
 	socket.send(JSON.stringify(messageToSend));
 }
 
