@@ -32,7 +32,7 @@ var genderDetectionOP = {
 					var bb = BBs.data[i].face_BB;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
-					sendImage("MaskDetection", face);
+					sendImage("GenderDetection", face);
 					genderDetectionOP.bbs.push(bb);
 					genderDetectionOP.sem++;
 				}
@@ -40,7 +40,7 @@ var genderDetectionOP = {
 
 			if(!genderDetectionOP.initListener){
 				genderDetectionOP.initListener = true; 
-				responseFromMuseBox.addListener("MaskDetection", (value) => {
+				responseFromMuseBox.addListener("GenderDetection", (value) => {
 					if(genderDetectionOP.tempCanvas == null){
 						genderDetectionOP.tempCanvas = frame2Canvas(genderDetectionOP.frame);
 					}
@@ -49,7 +49,7 @@ var genderDetectionOP = {
 
 					/* draw */
 					var faceBB = genderDetectionOP.bbs.shift();
-                    text = value.data.GenderDetection[i].gender;
+                    text = value.gender;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

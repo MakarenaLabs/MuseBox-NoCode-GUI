@@ -62,7 +62,7 @@ function draw_bb(bb, context){
 function draw_text(text, bb, context){
 	context.font = "15px Arial";
 	context.fillStyle = "lightgreen";
-	context.fillText(text, faceBB.x, faceBB.y-5);
+	context.fillText(text, bb.x, bb.y-5);
 }
 
 const cropCanvas = (sourceCanvas,left,top,width,height) => {

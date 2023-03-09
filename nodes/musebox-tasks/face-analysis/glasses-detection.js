@@ -49,7 +49,7 @@ var glassesDetectionOP = {
 
 					/* draw */
 					var faceBB = glassesDetectionOP.bbs.shift();
-                    text = value.data.GlassesDetection[i].glasses;
+                    text = value.glasses;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

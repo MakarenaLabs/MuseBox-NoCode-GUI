@@ -50,7 +50,7 @@ var faceRecognitionOP = {
 
 					/* draw */
 					var faceBB = faceRecognitionOP.bbs.shift();
-                    text = value.data.FaceRecognition[i].personFound;
+                    text = value.personFound;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

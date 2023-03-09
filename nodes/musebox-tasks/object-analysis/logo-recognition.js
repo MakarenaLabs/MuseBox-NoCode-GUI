@@ -30,7 +30,7 @@ var logoRecognitionOP = {
 
                 for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
-					var bb = BBs.data[i].face_BB;
+					var bb = BBs.data[i].logo_BB;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
 					sendImage("LogoRecognition", face);
@@ -50,7 +50,7 @@ var logoRecognitionOP = {
 
 					/* draw */
 					var faceBB = logoRecognitionOP.bbs.shift();
-                    text = value.data.LogoRecognition[i].personFound;
+                    text = value.logoFound;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

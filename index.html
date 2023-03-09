@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html><head>
+<html>
+
+<head>
     <title>MuseBox GUI Editor</title>
-	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">-->
-	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">-->
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
     <link rel="stylesheet" type="text/css" href="/litegraph.js/css/litegraph.css">
     <link rel="stylesheet" type="text/css" href="/litegraph.js/css/litegraph-editor.css">
     <link rel="stylesheet" type="text/css" href="style.css">
-	</head>
+</head>
+
 <body>
-	<div id="main">
-	</div>
+    <div id="main">
+    </div>
 
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="/litegraph.js/litegraph.js"></script>
@@ -41,12 +44,17 @@
     <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/face-recognition.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/gender-detection.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/glasses-detection.js"></script>
+    <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/age-detection.js"></script>
+    <script type="text/javascript" src="/nodes/musebox-tasks/face-analysis/emotion-recognition.js"></script>
 
     <!-- object analysis -->
     <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/logo-detection.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/logo-recognition.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/object-detection.js"></script>
     <script type="text/javascript" src="/nodes/musebox-tasks/object-analysis/text-detection.js"></script>
+
+    <!-- people analysis -->
+    <script type="text/javascript" src="/nodes/musebox-tasks/people-analysis/people-detection.js"></script>
 
     <!-- not implemented method -->
     <!--script type="text/javascript" src="/nodes/musebox-task-face-analysis.js"></script-->
@@ -56,4 +64,5 @@
     <script type="text/javascript" src="/js/code.js"></script>
 
 </body>
+
 </html>
