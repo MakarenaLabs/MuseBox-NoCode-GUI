@@ -1,28 +1,28 @@
 var loadingObj = {};
 var loadingProxy = new Proxy(loadingObj, {
-  set: function (target, key, value) {
-	if (typeof setLoader !== "undefined") { 
-		  setLoader(value);
-	}
-  }
+    set: function (target, key, value) {
+        if (typeof setLoader !== "undefined") {
+            setLoader(value);
+        }
+    }
 });
 
 
 var newJsonObj = {};
 var newJsonObjProxy = new Proxy(newJsonObj, {
-  set: function (target, key, value) {
-	if (typeof newJson !== "undefined") { 
-		  newJson(value);
-	}
-  }
+    set: function (target, key, value) {
+        if (typeof newJson !== "undefined") {
+            newJson(value);
+        }
+    }
 });
 
-function frame2Canvas(frame){
-	var canvas = document.createElement("canvas")
-	var context = canvas.getContext('2d');
-	canvas.width = frame.width;
-	canvas.height = frame.height;
-	context.drawImage(frame, 0, 0, frame.width, frame.height);
+function frame2Canvas(frame) {
+    var canvas = document.createElement("canvas")
+    var context = canvas.getContext('2d');
+    canvas.width = frame.width;
+    canvas.height = frame.height;
+    context.drawImage(frame, 0, 0, frame.width, frame.height);
     return canvas;
 }
 
@@ -42,41 +42,41 @@ function cloneCanvas(oldCanvas) {
     return newCanvas;
 }
 
-function point(x, y, canvas){
-  canvas.beginPath();
-  canvas.moveTo(x, y);
-  canvas.lineTo(x+1, y+1);
-  canvas.lineWidth = 5;
-  canvas.strokeStyle = "lightgreen";
-  canvas.stroke();
+function point(x, y, canvas) {
+    canvas.beginPath();
+    canvas.moveTo(x, y);
+    canvas.lineTo(x + 1, y + 1);
+    canvas.lineWidth = 5;
+    canvas.strokeStyle = "lightgreen";
+    canvas.stroke();
 }
 
-function draw_bb(bb, context){
-	context.beginPath();
-	context.strokeStyle = "red";
+function draw_bb(bb, context) {
+    context.beginPath();
+    context.strokeStyle = "red";
     context.lineWidth = 3;
-	context.rect(bb.x, bb.y, bb.width, bb.height);
-	context.stroke();
+    context.rect(bb.x, bb.y, bb.width, bb.height);
+    context.stroke();
 }
 
-function draw_text(text, bb, context){
-	context.font = "15px Arial";
-	context.fillStyle = "lightgreen";
-	context.fillText(text, bb.x, bb.y-5);
+function draw_text(text, bb, context) {
+    context.font = "15px Arial";
+    context.fillStyle = "lightgreen";
+    context.fillText(text, bb.x, bb.y - 5);
 }
 
-const cropCanvas = (sourceCanvas,left,top,width,height) => {
+const cropCanvas = (sourceCanvas, left, top, width, height) => {
     let destCanvas = document.createElement('canvas');
     destCanvas.width = width;
     destCanvas.height = height;
     destCanvas.getContext("2d").drawImage(
         sourceCanvas,
-        left,top,width,height,  // source rect with content to crop
-        0,0,width,height);      // newCanvas, same size as source rect
+        left, top, width, height,  // source rect with content to crop
+        0, 0, width, height);      // newCanvas, same size as source rect
     return destCanvas;
 }
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     console.log('Loaded webpage.js')
 
     let utils = new Utils('errorMessage');
@@ -90,16 +90,16 @@ jQuery(document).ready(function($) {
         this.errorOutput = document.getElementById(errorOutputId);
 
         const OPENCV_URL = 'https://docs.opencv.org/3.4/opencv.js';
-		// OpenCV loading
-		loadingProxy.is_loading = true;
+        // OpenCV loading
+        loadingProxy.is_loading = true;
 
-        this.loadOpenCv = function(onloadCallback) {
+        this.loadOpenCv = function (onloadCallback) {
             let script = document.createElement('script');
             script.setAttribute('async', '');
             script.setAttribute('type', 'text/javascript');
             script.addEventListener('load', () => {
                 console.log("cv ready!");
-				loadingProxy.is_loading = false;
+                loadingProxy.is_loading = false;
                 //$("#cv2-loader-blocker").hide();
                 onloadCallback();
             });
@@ -111,11 +111,11 @@ jQuery(document).ready(function($) {
             node.parentNode.insertBefore(script, node);
         };
 
-        this.createFileFromUrl = function(path, url, callback) {
+        this.createFileFromUrl = function (path, url, callback) {
             let request = new XMLHttpRequest();
             request.open('GET', url, true);
             request.responseType = 'arraybuffer';
-            request.onload = function(ev) {
+            request.onload = function (ev) {
                 if (request.readyState === 4) {
                     if (request.status === 200) {
                         let data = new Uint8Array(request.response);
@@ -129,12 +129,12 @@ jQuery(document).ready(function($) {
             request.send();
         };
 
-        this.loadImageToCanvas = function(url, cavansId) {
+        this.loadImageToCanvas = function (url, cavansId) {
             let canvas = document.getElementById(cavansId);
             let ctx = canvas.getContext('2d');
             let img = new Image();
             img.crossOrigin = 'anonymous';
-            img.onload = function() {
+            img.onload = function () {
                 canvas.width = img.width;
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0, img.width, img.height);
@@ -142,7 +142,7 @@ jQuery(document).ready(function($) {
             img.src = url;
         };
 
-        this.executeCode = function(textAreaId) {
+        this.executeCode = function (textAreaId) {
             try {
                 this.clearError();
                 let code = document.getElementById(textAreaId).value;
@@ -152,11 +152,11 @@ jQuery(document).ready(function($) {
             }
         };
 
-        this.clearError = function() {
+        this.clearError = function () {
             this.errorOutput.innerHTML = '';
         };
 
-        this.printError = function(err) {
+        this.printError = function (err) {
             if (typeof err === 'undefined') {
                 err = '';
             } else if (typeof err === 'number') {
@@ -178,7 +178,7 @@ jQuery(document).ready(function($) {
             this.errorOutput.innerHTML = err;
         };
 
-        this.loadCode = function(scriptId, textAreaId) {
+        this.loadCode = function (scriptId, textAreaId) {
             let scriptNode = document.getElementById(scriptId);
             let textArea = document.getElementById(textAreaId);
             if (scriptNode.type !== 'text/code-snippet') {
@@ -187,7 +187,7 @@ jQuery(document).ready(function($) {
             textArea.value = scriptNode.text.replace(/^\n/, '');
         };
 
-        this.addFileInputHandler = function(fileInputId, canvasId) {
+        this.addFileInputHandler = function (fileInputId, canvasId) {
             let inputElement = document.getElementById(fileInputId);
             inputElement.addEventListener('change', (e) => {
                 let files = e.target.files;
@@ -204,11 +204,12 @@ jQuery(document).ready(function($) {
             }
         };
 
-        this.startCamera = function(resolution, callback, videoId) {
+        this.startCamera = function (resolution, callback, videoId) {
             const constraints = {
-                'qvga': {width: {exact: 320}, height: {exact: 240}},
-                'vga': {width: {exact: 640}, height: {exact: 480}},
-                'hd': {width: {exact: 640}, height: {exact: 320}}};
+                'qvga': { width: { exact: 320 }, height: { exact: 240 } },
+                'vga': { width: { exact: 640 }, height: { exact: 480 } },
+                'hd': { width: { exact: 640 }, height: { exact: 320 } }
+            };
             let video = document.getElementById(videoId);
             if (!video) {
                 video = document.createElement('video');
@@ -219,8 +220,8 @@ jQuery(document).ready(function($) {
                 videoConstraint = true;
             }
 
-            navigator.mediaDevices.getUserMedia({video: videoConstraint, audio: false})
-                .then(function(stream) {
+            navigator.mediaDevices.getUserMedia({ video: videoConstraint, audio: false })
+                .then(function (stream) {
                     video.srcObject = stream;
                     video.play();
                     self.video = video;
@@ -228,7 +229,7 @@ jQuery(document).ready(function($) {
                     self.onCameraStartedCallback = callback;
                     video.addEventListener('canplay', onVideoCanPlay, false);
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     startAndStop.pause();
                     alert('Open webcam');
                     self.printError('Camera Error: ' + err.name + ' ' + err.message);
@@ -237,7 +238,7 @@ jQuery(document).ready(function($) {
                 });
         };
 
-        this.stopCamera = function() {
+        this.stopCamera = function () {
             if (this.video) {
                 this.video.pause();
                 this.video.srcObject = null;

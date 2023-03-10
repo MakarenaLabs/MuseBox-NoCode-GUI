@@ -29,11 +29,11 @@ var logoRecognitionOP = {
 				logoRecognitionOP.frame = frame;
 
                 for(var i = 0; i < BBs.data.length; ++i){
-					/* crop face, then send */
+					/* crop logo, then send */
 					var bb = BBs.data[i].logo_BB;
-					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
-					this.setOutputData(2 + i, face);
-					sendImage("LogoRecognition", face);
+					var logo = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
+					this.setOutputData(2 + i, logo);
+					sendImage("LogoRecognition", logo);
 					logoRecognitionOP.bbs.push(bb);
 					logoRecognitionOP.sem++;
 				}
@@ -49,9 +49,9 @@ var logoRecognitionOP = {
 					var context = canvas.getContext('2d');
 
 					/* draw */
-					var faceBB = logoRecognitionOP.bbs.shift();
+					var logoBB = logoRecognitionOP.bbs.shift();
                     text = value.logoFound;
-                    draw_text(text, faceBB, context);
+                    draw_text(text, logoBB, context);
 
 					this.setOutputData(0, value.landmarks);
 					this.setOutputData(2, JSON.stringify(value));
