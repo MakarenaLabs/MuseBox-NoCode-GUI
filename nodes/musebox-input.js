@@ -28,6 +28,7 @@
 
             this.source.setAttribute('src', this.properties['url source']);
             this.source.setAttribute('type', 'video/mp4');
+            this.source.setAttribute('crossOrigin', '*');
             
             this.video.appendChild(this.source);
             this.video.muted = true;
@@ -41,7 +42,7 @@
             });
             this.video.autoplay = true;
         }
-       
+        this.video.crossOrigin = '*';
         this.setOutputData(0, this.video);
 
         

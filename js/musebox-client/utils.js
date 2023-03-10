@@ -42,12 +42,12 @@ function cloneCanvas(oldCanvas) {
     return newCanvas;
 }
 
-function point(x, y, canvas) {
+function point(x, y, canvas, lineWidth = 5, strokeStyle = "lightgreen", point2 = {x: x+1, y: y+1}) {
     canvas.beginPath();
     canvas.moveTo(x, y);
-    canvas.lineTo(x + 1, y + 1);
-    canvas.lineWidth = 5;
-    canvas.strokeStyle = "lightgreen";
+    canvas.lineTo(point2.x, point2.y);
+    canvas.lineWidth = lineWidth;
+    canvas.strokeStyle = strokeStyle;
     canvas.stroke();
 }
 
@@ -75,6 +75,7 @@ const cropCanvas = (sourceCanvas, left, top, width, height) => {
         0, 0, width, height);      // newCanvas, same size as source rect
     return destCanvas;
 }
+
 
 jQuery(document).ready(function ($) {
     console.log('Loaded webpage.js')
@@ -134,6 +135,7 @@ jQuery(document).ready(function ($) {
             let ctx = canvas.getContext('2d');
             let img = new Image();
             img.crossOrigin = 'anonymous';
+            img.setAttribute('crossorigin', 'anonymous');
             img.onload = function () {
                 canvas.width = img.width;
                 canvas.height = img.height;
