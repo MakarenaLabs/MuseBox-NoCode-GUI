@@ -1,35 +1,35 @@
 //MuseBox input
-(function(global) {
+(function (global) {
     var LiteGraph = global.LiteGraph;
 
     /*********************** */
-	/* MEDIA STREAM          */
+    /* MEDIA STREAM          */
     /*********************** */
-	function MediaStream(){
-		this.addOutput("frames", ["frame", "image"]);
+    function MediaStream() {
+        this.addOutput("frames", ["frame", "image"]);
         this.addProperty("url source", "");
         this.widget = this.addWidget("text", "url source", "", "url source");
         this.widgets_up = true;
         this.video = null;
         this.source = null;
-	}
+    }
     MediaStream.color = "#009abd";
     MediaStream.title = "Media Stream";
     MediaStream.desc = "Media stream";
 
-    MediaStream.prototype.onConfigure = function(o) {
+    MediaStream.prototype.onConfigure = function (o) {
         this.widget.value = o.properties['url source'];
     };
-	MediaStream.prototype.onExecute = function() {
+    MediaStream.prototype.onExecute = function () {
         //debugger;        
-        if(this.video == null){
+        if (this.video == null) {
             this.video = document.createElement("video");
             this.source = document.createElement('source');
 
             this.source.setAttribute('src', this.properties['url source']);
             this.source.setAttribute('type', 'video/mp4');
             this.source.setAttribute('crossOrigin', '*');
-            
+
             this.video.appendChild(this.source);
             this.video.muted = true;
             this.video.pause();
@@ -37,18 +37,18 @@
             this.video.load();
             this.video.play();
             console.log({
-              src: this.source.getAttribute('src'),
-              type: this.source.getAttribute('type'),
+                src: this.source.getAttribute('src'),
+                type: this.source.getAttribute('type'),
             });
             this.video.autoplay = true;
         }
         this.video.crossOrigin = '*';
         this.setOutputData(0, this.video);
 
-        
+
     };
 
-    MediaStream.prototype.onStop = function(){
+    MediaStream.prototype.onStop = function () {
         this.video.pause();
         this.video.remove();
         this.video = null;
@@ -56,11 +56,50 @@
         this.video = null;
     }
 
-    LiteGraph.registerNodeType("MuseBox Input/Media Stream", MediaStream);    
+    LiteGraph.registerNodeType("MuseBox Input/Media Stream", MediaStream);
 
 
     /*********************** */
-	/* WEBCAM                */
+    /* DECODED MEDIA STREAM          */
+    /*********************** */
+    function DecodedMediaStream() {
+        this.addOutput("frames", ["frame", "image"]);
+        this.addProperty("url source", "");
+        this.widget = this.addWidget("text", "url source", "", "url source");
+        this.widgets_up = true;
+        this.canvas = null;
+    }
+    DecodedMediaStream.color = "#009abd";
+    DecodedMediaStream.title = "Decoded Media Stream";
+    DecodedMediaStream.desc = "Decoded Media stream";
+
+    DecodedMediaStream.prototype.onConfigure = function (o) {
+        this.widget.value = o.properties['url source'];
+    };
+    DecodedMediaStream.prototype.onExecute = function () {
+        //debugger;        
+        if (this.canvas == null) {
+            this.canvas = document.createElement('canvas');
+        }
+
+        var ctx = this.canvas.getContext('2d');
+        var img = new Image;
+        img.crossOrigin = 'Anonymous';
+        img.src = this.properties['url source'];
+        ctx.drawImage(img, 0, 0, 300, 150);
+        this.canvas.crossOrigin = 'Anonymous';
+        this.setOutputData(0, this.canvas);
+    };
+
+    DecodedMediaStream.prototype.onStop = function () {
+        this.canvas = null;
+    }
+
+    LiteGraph.registerNodeType("MuseBox Input/Decoded Media Stream", DecodedMediaStream);
+
+
+    /*********************** */
+    /* WEBCAM                */
     /*********************** */
     function ImageWebcam() {
         this.addOutput("Webcam", ["image", "frame"]);
@@ -73,7 +112,7 @@
     ImageWebcam.desc = "Webcam image";
     ImageWebcam.is_webcam_open = false;
 
-    ImageWebcam.prototype.openStream = function() {
+    ImageWebcam.prototype.openStream = function () {
         if (!navigator.mediaDevices.getUserMedia) {
             console.log('getUserMedia() is not supported in your browser, use chrome and enable WebRTC from about://flags');
             return;
@@ -101,7 +140,7 @@
         }
     };
 
-    ImageWebcam.prototype.closeStream = function() {
+    ImageWebcam.prototype.closeStream = function () {
         if (this._webcam_stream) {
             var tracks = this._webcam_stream.getTracks();
             if (tracks.length) {
@@ -117,7 +156,7 @@
         }
     };
 
-    ImageWebcam.prototype.onPropertyChanged = function(name, value) {
+    ImageWebcam.prototype.onPropertyChanged = function (name, value) {
         if (name == "facingMode") {
             this.properties.facingMode = value;
             this.closeStream();
@@ -125,11 +164,11 @@
         }
     };
 
-    ImageWebcam.prototype.onRemoved = function() {
+    ImageWebcam.prototype.onRemoved = function () {
         this.closeStream();
     };
 
-    ImageWebcam.prototype.streamReady = function(localMediaStream) {
+    ImageWebcam.prototype.streamReady = function (localMediaStream) {
         this._webcam_stream = localMediaStream;
         //this._waiting_confirmation = false;
         this.boxcolor = "green";
@@ -142,7 +181,7 @@
             this._video = video;
             //document.body.appendChild( video ); //debug
             //when video info is loaded (size and so)
-            video.onloadedmetadata = function(e) {
+            video.onloadedmetadata = function (e) {
                 // Ready to go. Do some stuff.
                 console.log(e);
                 ImageWebcam.is_webcam_open = true;
@@ -152,7 +191,7 @@
         this.trigger("stream_ready", video);
     };
 
-    ImageWebcam.prototype.onExecute = function() {
+    ImageWebcam.prototype.onExecute = function () {
         if (this._webcam_stream == null && !this._waiting_confirmation) {
             this.openStream();
         }
@@ -178,22 +217,22 @@
                     break;
             }
         }
-};
+    };
 
-    ImageWebcam.prototype.getExtraMenuOptions = function(graphcanvas) {
+    ImageWebcam.prototype.getExtraMenuOptions = function (graphcanvas) {
         var that = this;
         var txt = !that.properties.show ? "Show Frame" : "Hide Frame";
         return [
             {
                 content: txt,
-                callback: function() {
+                callback: function () {
                     that.properties.show = !that.properties.show;
                 }
             }
         ];
     };
 
-    ImageWebcam.prototype.onDrawBackground = function(ctx) {
+    ImageWebcam.prototype.onDrawBackground = function (ctx) {
         if (
             this.flags.collapsed ||
             this.size[1] <= 20 ||
@@ -212,7 +251,7 @@
         ctx.restore();
     };
 
-    ImageWebcam.prototype.onGetOutputs = function() {
+    ImageWebcam.prototype.onGetOutputs = function () {
         return [
             ["width", "number"],
             ["height", "number"],
