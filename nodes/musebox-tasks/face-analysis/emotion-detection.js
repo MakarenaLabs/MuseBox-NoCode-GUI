@@ -17,9 +17,9 @@ var emotionRecognitionOP = {
 		this.addOutput("post processing", "image");
         this.addOutput("logs", "logs");
     }
-    EmotionRecognition.title = "Emotion Recognition";
+    EmotionRecognition.title = "Emotion Detection";
     EmotionRecognition.desc = "Given a face bounding box, it detects the facial expression of the person";
-    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Emotion Recognition", EmotionRecognition);
+    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Emotion Detection", EmotionRecognition);
 	EmotionRecognition.prototype.onExecute = function() {
 
 		if(emotionRecognitionOP.sem == 0){
@@ -32,7 +32,7 @@ var emotionRecognitionOP = {
 					var bb = BBs.data[i].face_BB;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
-					sendImage("EmotionRecognition", face);
+					sendImage("EmotionDetection", face);
 					emotionRecognitionOP.bbs.push(bb);
 					emotionRecognitionOP.sem++;
 				}
@@ -40,7 +40,7 @@ var emotionRecognitionOP = {
 
 			if(!emotionRecognitionOP.initListener){
 				emotionRecognitionOP.initListener = true; 
-				responseFromMuseBox.addListener("EmotionRecognition", (value) => {
+				responseFromMuseBox.addListener("EmotionDetection", (value) => {
 					if(emotionRecognitionOP.tempCanvas == null){
 						emotionRecognitionOP.tempCanvas = frame2Canvas(emotionRecognitionOP.frame);
 					}

@@ -14,7 +14,7 @@ var faceLandmarkOP = {
 		this.addInput("face bounding box", "face bounding box");
 		this.addInput("prev processing", "image");
 		
-		this.addOutput("98 face points", "98 face points");
+		this.addOutput("98 face points", "68 face points");
 		this.addOutput("post processing", "image");
 		this.addOutput("crop 1", "image");
 		this.addOutput("crop 2", "image");
@@ -57,9 +57,9 @@ var faceLandmarkOP = {
 					var height = faceBB.height;
 					var lm_point = value.landmarks;
 		
-					for (var j = 0; j < 196; j += 2) {
-						console.log(lm_point[j] * (width/80) + faceBB.x, lm_point[j+1] * (height/80) + faceBB.y);
-						point(lm_point[j] * (width/80) + faceBB.x, lm_point[j+1] * (height/80) + faceBB.y, context);
+					for (var j = 0; j < 136; j += 2) {
+						// console.log(lm_point[j] * width + faceBB.x, lm_point[j+1] * height + faceBB.y);
+						point(lm_point[j] * width + faceBB.x, lm_point[j+1] * height + faceBB.y, context);
 					}
 
 					this.setOutputData(0, value.landmarks);

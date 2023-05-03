@@ -59,9 +59,9 @@ var emotionDetectionOP = {
 		this.addInput("face bounding box", "face bounding box");
 		this.addOutput("label", "label");
 	}
-    AgeDetection.title = "Age Detection";
+    AgeDetection.title = "Age Gender Detection";
     AgeDetection.desc = "Given a face bounding box, it determines the age of a person";
-    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Age Detection", AgeDetection);
+    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Age Gender Detection", AgeDetection);
 	AgeDetection.prototype.onExecute = function() {
 		alert("NOT IMPLEMENTED!");
     };		

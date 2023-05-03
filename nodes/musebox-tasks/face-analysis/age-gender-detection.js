@@ -17,9 +17,9 @@ var ageDetectionOP = {
 		this.addOutput("post processing", "image");
         this.addOutput("logs", "logs");
     }
-    AgeDetection.title = "Age Detection";
+    AgeDetection.title = "Age Gender Detection";
     AgeDetection.desc = "Given a face bounding box, it detects the apparet age of the person";
-    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Age Detection", AgeDetection);
+    LiteGraph.registerNodeType("MuseBox Tasks/Face Analysis/Age Gender Detection", AgeDetection);
 	AgeDetection.prototype.onExecute = function() {
 
 		if(ageDetectionOP.sem == 0){
@@ -32,7 +32,7 @@ var ageDetectionOP = {
 					var bb = BBs.data[i].face_BB;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
-					sendImage("AgeDetection", face);
+					sendImage("AgeGenderDetection", face);
 					ageDetectionOP.bbs.push(bb);
 					ageDetectionOP.sem++;
 				}
@@ -40,7 +40,7 @@ var ageDetectionOP = {
 
 			if(!ageDetectionOP.initListener){
 				ageDetectionOP.initListener = true; 
-				responseFromMuseBox.addListener("AgeDetection", (value) => {
+				responseFromMuseBox.addListener("AgeGenderDetection", (value) => {
 					if(ageDetectionOP.tempCanvas == null){
 						ageDetectionOP.tempCanvas = frame2Canvas(ageDetectionOP.frame);
 					}
@@ -49,7 +49,15 @@ var ageDetectionOP = {
 
 					/* draw */
 					var faceBB = ageDetectionOP.bbs.shift();
-                    text = value.age;
+					var gender = "";
+					console.log((value.gender/(1<<16)));
+					if ((value.gender/(1<<16)) > 0.5) {
+						gender = "man";
+					}
+					else {
+						gender = "woman";
+					}
+                    text = "Age: " + value.age + " Gender: " + gender;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);
