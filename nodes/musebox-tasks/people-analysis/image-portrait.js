@@ -29,7 +29,7 @@ var imagePortraitOP = {
 				imagePortraitOP.initListener = true;
 				responseFromMuseBox.addListener("ImagePortrait", (value) => {
 					/* draw */
-					let array = value.image.slice(0, -1).split(" ").map(Number);
+					let array = value.data.prediction.slice(0, -1).split(" ").map(Number);
 
 					let finalArray = new Array(512);
 					for (let i = 0; i < 512; i++) {
