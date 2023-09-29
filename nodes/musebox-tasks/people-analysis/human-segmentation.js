@@ -29,7 +29,7 @@ var humanSegmentationOP = {
 				humanSegmentationOP.initListener = true;
 				responseFromMuseBox.addListener("HumanSegmentation", (value) => {
 					/* draw */
-					let array = value.image.slice(0, -1).split(" ").map(Number);
+					let array = value.data.prediction.slice(0, -1).split(" ").map(Number);
 
 					let finalArray = new Array(320);
 					for (let i = 0; i < 320; i++) {

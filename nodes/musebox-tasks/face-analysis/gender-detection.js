@@ -29,7 +29,7 @@ var genderDetectionOP = {
 				genderDetectionOP.frame = frame;
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
-					var bb = BBs.data[i].face_BB;
+					var bb = BBs.data[i].boundingBox;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
 					sendImage("GenderDetection", face);
@@ -49,7 +49,7 @@ var genderDetectionOP = {
 
 					/* draw */
 					var faceBB = genderDetectionOP.bbs.shift();
-                    text = value.gender;
+                    text = value.data.prediction;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

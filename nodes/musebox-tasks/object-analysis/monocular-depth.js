@@ -28,7 +28,7 @@ var monocularDepthOP = {
 				monocularDepthOP.initListener = true;
 				responseFromMuseBox.addListener("MonoDepth", (value) => {
 					/* draw */
-					let array = value.image.slice(0, -1).split(" ").map(Number);
+					let array = value.data.prediction.slice(0, -1).split(" ").map(Number);
 
 					let finalArray = new Array(128);
 					for (let i = 0; i < 128; i++) {

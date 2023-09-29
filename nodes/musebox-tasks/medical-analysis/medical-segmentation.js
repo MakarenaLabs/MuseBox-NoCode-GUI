@@ -32,10 +32,18 @@ var medicalSegmentationOP = {
 					var canvas = frame2Canvas(medicalSegmentationOP.frame);
 					var context = canvas.getContext('2d');
 					for (var i = 0; i < value.data.length; ++i) {
-						draw_text(value.data.label, value.data[i].contour[0], context);
-						for (var j = 1; j < value.data[i].contour.length; j++) {
-							point((value.data[i].contour[j][1].x * (frame.width/320)), 
-							value.data[i].contour[j][1].y * (frame.height/320), context, 10, "rgb(255,0,0)", value.data[i].contour[j-1][1]);
+						var contour_data = {
+							x: value.data[i].contour[0],
+							y: value.data[i].contour[1],
+						}
+						draw_text(value.data[i].label, contour_data, context);
+						for (var j = 2; j < value.data[i].contour.length; j+=2) {
+							var contour_data_2 = {
+								x: value.data[i].contour[j-2],
+								y: value.data[i].contour[j-1],
+							}
+							point((value.data[i].contour[j] * (frame.width/320)),
+							value.data[i].contour[j+1] * (frame.height/320), context, 5, "rgb(255,0,0)", contour_data_2);
 						}
 					}
 					this.setOutputData(0, canvas);

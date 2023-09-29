@@ -30,7 +30,7 @@ var faceRecognitionOP = {
 
 				for(var i = 0; i < BBs.data.length; ++i){
 					/* crop face, then send */
-					var bb = BBs.data[i].face_BB;
+					var bb = BBs.data[i].boundingBox;
 					var face = cropCanvas(frame, bb.x, bb.y, bb.width, bb.height);
 					this.setOutputData(2 + i, face);
 					sendImage("FaceRecognition", face);
@@ -50,7 +50,7 @@ var faceRecognitionOP = {
 
 					/* draw */
 					var faceBB = faceRecognitionOP.bbs.shift();
-                    text = value.personFound;
+                    text = value.data.prediction;
                     draw_text(text, faceBB, context);
 
 					this.setOutputData(0, value.landmarks);

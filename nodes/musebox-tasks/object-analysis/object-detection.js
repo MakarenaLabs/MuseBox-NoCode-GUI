@@ -32,8 +32,12 @@ var objectDetectionOP = {
 					var canvas = frame2Canvas(objectDetectionOP.frame);
 					var context = canvas.getContext('2d');
 					for(var i = 0; i < value.data.length; ++i){
-						draw_bb(value.data[i].object_BB, context);
+						var bb = value.data[i].boundingBox;
+						var text = value.data[i].boundingBox.label;
+						draw_bb(bb, context);
+						draw_text(text, bb, context);
 					}
+
 					this.setOutputData(0, value);
 					this.setOutputData(1, canvas);
 					this.setOutputData(2, JSON.stringify(value));
