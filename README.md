@@ -23,4 +23,4 @@ python -m http.server 8000
 The GUI will be available at address `127.0.0.1:8000` .
 
 
-The full documentation is available here: https://doc.musebox.it/
+The full documentation is available here: [https://doc.musebox-ai.com/](https://doc.musebox-ai.com/)
